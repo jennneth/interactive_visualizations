@@ -1,48 +1,36 @@
-//make sure you get a connection  to the dataset
-d3.json("samples.json").then(data=>{
-    console.log(data)
-    //build an array of valid input by reading each value in names field and storing  to an array
-    var idNames = data.names;
-    //add the valid options to the html
-    var dropDown=d3.select("#selDataset");
-    idNames.forEach(id => {
-        var option= dropDown.append("option");
-        option.text(id);
-        option.property("value",id);
-    })
-});
 
-//populate the selection box with valid options
-// function init(){
-//     d3.json("samples.json").then(data=>{
-//         console.log(data)
-//         //build an array of valid input
-//         var inputOptions = [];
-//         inputOptions = data.names;
-//         console.log(inputOptions);
-//         var dropDown = d3.select("#selDataset")
-//         idValues.forEach(id => {
-//             var option = dropdown.append
-//         })
+function init() {
+    //make sure you get a connection  to the dataset
+    d3.json("samples.json").then(data=>{
+        console.log(data)
         
-//         // document.getElementById("ddlCustomers");
+        //build an array of valid input by reading each value in names field and storing  to an array
+        var idNames = data.names;
         
-//         //  //Add the Options to the DropDownList.
-//         //  for (var i = 0; i < customers.length; i++) {
-//         //      var option = document.createElement("OPTION"); 
+        //add the valid options to the html
+        var dropDown=d3.select("#selDataset");
+        idNames.forEach(id => {
+            var option= dropDown.append("option");
+            option.text(id);
+            option.property("value",id);
+        });
 
-//     });
-        
-         
-// };
-function unpack(rows, index) {
-    return rows.map(function(row) {
-      return row[index];
+        //display the initial data and plots
+        drawInfo(data.names[0]);
+        drawGraphs(data.names[0]);
     });
-  }
+}
+
+function optionChanged(value){
+    //when the value in the drop down menu changes
+    //pass the selected value to the drawing functions
+    drawInfo(value);
+    drawGraphs(value);
+}
+
 
 //when the user input selection is made, run the optionChanged function 
-function optionChanged(value){
+function drawGraphs(value){
     console.log("value selected: ",value);
 
     //read the json file and filter for the data that matches the selection passed as value
@@ -58,11 +46,17 @@ function optionChanged(value){
         console.log("sample_values: ", sample_values)
         var otu_labels = result.otu_labels;
         console.log("otu labels: ", otu_labels);
-        // then  you would call a function to build the table
-        //buildTable(dates, openPrices, highPrices, lowPrices, closingPrices, volume);
+        
+        //now draw the bar graph
+
+        //now draw the bubble graph
    
     
     });
 };
 
+function drawInfo(value) {
+    //display the sample metadata for the selected sample
+}
 
+init();
