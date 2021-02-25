@@ -70,9 +70,10 @@ function drawInfo(value) {
         console.log("meta: ", meta);
         var result = meta.filter(idtag => idtag.id.toString() === value)[0];
         console.log("result: ", result);
+        Object.entries(result).forEach((key) => {
+            dInfo.append("h5").text(key[0].toUpperCase() + ": " +key[1] + "\n");
+        });
     });
-    
-
 }
 
 init();
