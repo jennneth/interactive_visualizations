@@ -40,14 +40,38 @@ function drawGraphs(value){
         var result = samples.filter(idtag => idtag.id.toString() === value)[0];
         console.log("result: ", result);
         //store all of the needed data points for graphing
-        var otu_ids = result.otu_ids;
+        var otu_ids = result.otu_ids.slice(0,10).reverse();
         console.log("otu_ids", otu_ids);
-        var sample_values = result.sample_values;
+        var otu_ids_formatted = otu_ids.map(d => "OTU " + d + " ");
+        var sample_values = result.sample_values.slice(0,10).reverse();
         console.log("sample_values: ", sample_values)
-        var otu_labels = result.otu_labels;
+        var otu_labels = result.otu_labels.slice(0,10).reverse();
         console.log("otu labels: ", otu_labels);
         
         //now draw the bar graph
+            //create trace variable
+            var trace = {
+                x: sample_values,
+                y: otu_ids_formatted,
+                text: otu_labels,
+                type: "bar",
+                orientation: "h",
+            };
+            //create data variable
+            var data = [trace];
+            //create layout variable
+            var layout = {
+                title: "Top 10 OTU",
+                yaxis: {tickmode: "linear"},
+                margin: {
+                    l:100,
+                    r: 100,
+                    t:30,
+                    b:20
+                }
+            };
+            //plot it
+            Plotly.newPlot("bar", data, layout);
 
         //now draw the bubble graph
    
