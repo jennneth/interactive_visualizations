@@ -94,10 +94,11 @@ function drawGraphsBubble(value){
         var otu_ids = result.otu_ids;
         console.log("otu_ids", otu_ids);
         // var otu_ids_formatted = otu_ids.map(d => "OTU " + d + " ");
-        var sample_values = result.sample_values
-        console.log("sample_values: ", sample_values)
-        var otu_labels = result.otu_labels
+        var sample_values = result.sample_values;
+        console.log("sample_values: ", sample_values);
+        var otu_labels = result.otu_labels;
         console.log("otu labels: ", otu_labels);
+        var wash = result.wfreq;
         
         //now draw the bubble graph
             //create trace variable
@@ -121,7 +122,24 @@ function drawGraphsBubble(value){
             };
             //plot it
             Plotly.newPlot("bubble", data, layout);
-
+        
+        // //now draw the gauge chart
+        //     var gaugeData = [
+        //         {
+        //             domain: { x: [0, 1], y: [0, 1] },
+        //             value: wash,
+        //             marker: {
+        //                 type: "triangle",
+        //                 color: "red"
+        //             },
+        //             title: { text: "Belly Button Washing Frequency" },
+        //             type: "indicator",
+        //             mode: "gauge+number"
+        //         }
+        // ];
+        
+        // var gaugeLayout = { width: 600, height: 500, margin: { t: 0, b: 0 }, yaxis: { range: [0,9]} };
+        // Plotly.newPlot('gauge', gaugeData, gaugeLayout);
         
    
     
