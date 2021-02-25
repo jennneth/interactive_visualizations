@@ -57,6 +57,22 @@ function drawGraphs(value){
 
 function drawInfo(value) {
     //display the sample metadata for the selected sample
+
+    //select the location on the html page to append the information
+    var dInfo = d3.select("#sample-metadata");
+    
+    //initialize the area
+    dInfo.html("");
+
+    //read the json file and filter for the data that matches the value
+    d3.json("samples.json").then(data => {
+        var meta = data.metadata;
+        console.log("meta: ", meta);
+        var result = meta.filter(idtag => idtag.id.toString() === value)[0];
+        console.log("result: ", result);
+    });
+    
+
 }
 
 init();
