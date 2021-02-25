@@ -1,7 +1,7 @@
 //make sure you get a connection  to the dataset
 d3.json("samples.json").then(data=>{
     console.log(data)
-    //build an array of valid input
+    //build an array of valid input by reading each value in names field and storing  to an array
     var idNames = data.names;
     //add the valid options to the html
     var dropDown=d3.select("#selDataset");
@@ -35,29 +35,34 @@ d3.json("samples.json").then(data=>{
         
          
 // };
-
-function optionChanged(value){
-    //console.log(value)
-    //use d3 to select the user input field
-    var selectionBox = d3.select("#selDataset");
-    // assign the value to a variable
-    var selectionID = selectionBox.property("value");
-    console.log("saelection ID", selectionID);
-    //once you have the user input...
-    //store the sample_values 
-    var sample_values = [];
-    d3.json("samples.json").then>{(data=
-        samples = data.samples
-        do for each loop on samples to find the id that matches
-            if (samples.id === selectionID){
-                sample_values = data.sample_values
-                console.log(sample_Values)};
-                
+function unpack(rows, index) {
+    return rows.map(function(row) {
+      return row[index];
     });
-    
-    //store the otu_ids
+  }
 
-    //store the otu_labels
+//when the user input selection is made, run the optionChanged function 
+function optionChanged(value){
+    console.log("value selected: ",value);
 
+    //read the json file and filter for the data that matches the selection passed as value
+    d3.json("samples.json").then(data => {
+        var samples = data.samples;
+        console.log("samples: ", samples);
+        var result = samples.filter(idtag => idtag.id.toString() === value)[0];
+        console.log("result: ", result);
+        //store all of the needed data points for graphing
+        var otu_ids = result.otu_ids;
+        console.log("otu_ids", otu_ids);
+        var sample_values = result.sample_values;
+        console.log("sample_values: ", sample_values)
+        var otu_labels = result.otu_labels;
+        console.log("otu labels: ", otu_labels);
+        // then  you would call a function to build the table
+        //buildTable(dates, openPrices, highPrices, lowPrices, closingPrices, volume);
+   
     
+    });
 };
+
+
