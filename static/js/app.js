@@ -17,7 +17,8 @@ function init() {
 
         //display the initial data and plots
         drawInfo(data.names[0]);
-        drawGraphs(data.names[0]);
+        drawGraphsBar(data.names[0]);
+        drawGraphsBubble(data.names[0]);
     });
 }
 
@@ -25,12 +26,13 @@ function optionChanged(value){
     //when the value in the drop down menu changes
     //pass the selected value to the drawing functions
     drawInfo(value);
-    drawGraphs(value);
+    drawGraphsBar(value);
+    drawGraphsBubble(value);
 }
 
 
 //when the user input selection is made, run the optionChanged function 
-function drawGraphs(value){
+function drawGraphsBar(value){
     console.log("value selected: ",value);
 
     //read the json file and filter for the data that matches the selection passed as value
@@ -74,6 +76,53 @@ function drawGraphs(value){
             Plotly.newPlot("bar", data, layout);
 
         //now draw the bubble graph
+   
+    
+    });
+};
+
+function drawGraphsBubble(value){
+    console.log("value selected: ",value);
+
+    //read the json file and filter for the data that matches the selection passed as value
+    d3.json("samples.json").then(data => {
+        var samples = data.samples;
+        console.log("samples: ", samples);
+        var result = samples.filter(idtag => idtag.id.toString() === value)[0];
+        console.log("result: ", result);
+        //store all of the needed data points for graphing
+        var otu_ids = result.otu_ids;
+        console.log("otu_ids", otu_ids);
+        // var otu_ids_formatted = otu_ids.map(d => "OTU " + d + " ");
+        var sample_values = result.sample_values
+        console.log("sample_values: ", sample_values)
+        var otu_labels = result.otu_labels
+        console.log("otu labels: ", otu_labels);
+        
+        //now draw the bubble graph
+            //create trace variable
+            var trace = {
+                x: otu_ids,
+                y: sample_values,
+                mode: "markers",
+                marker: {
+                    size: sample_values,
+                    color: otu_ids
+                },
+                text: otu_labels
+            };
+            //create data variable
+            var data = [trace];
+            //create layout variable
+            var layout = {
+                xaxis: {title: "OTU ID"},
+                height: 600,
+                width: 1300
+            };
+            //plot it
+            Plotly.newPlot("bubble", data, layout);
+
+        
    
     
     });
